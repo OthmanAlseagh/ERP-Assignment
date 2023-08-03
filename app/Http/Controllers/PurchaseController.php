@@ -2,14 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Purchase;
-use Illuminate\Http\Request;
+use App\Actions\Purchase\PurchaseCreateAction;
+use App\Data\PurchaseData;
+use App\Http\Requests\PurchaseRequest;
+use App\Http\Resources\PurchaseResource;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class PurchaseController extends Controller
 {
-    public function store(Request $request)
+    public function __invoke(PurchaseRequest $request): JsonResource
     {
-        $purchase = Purchase::create($request->all());
-        return response()->json($purchase, 201);
+        return PurchaseResource::make(
+            app(PurchaseCreateAction::class)(
+                PurchaseData::from($request->validated())
+            )
+        );
     }
 }

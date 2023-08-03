@@ -2,32 +2,59 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\Inventory\InventoryCreateAction;
+use App\Actions\Inventory\InventoryListAction;
+use App\Actions\Inventory\InventoryUpdateAction;
+use App\Data\InventoryData;
+use App\Http\Requests\InventoryRequest;
+use App\Http\Resources\InventoryResource;
 use App\Models\Inventory;
-use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class InventoryController extends Controller
 {
-    public function index()
+    public function index(): ResourceCollection
     {
-        $items = Inventory::all();
-        return response()->json($items);
+        return InventoryResource::collection(
+            app(InventoryListAction::class)()
+        );
     }
 
-    public function store(Request $request)
+    public function store(InventoryRequest $request): JsonResource
     {
-        $item = Inventory::create($request->all());
-        return response()->json($item, 201);
+        return InventoryResource::make(
+            app(InventoryCreateAction::class)(
+                InventoryData::from($request->validated())
+            )
+        );
     }
 
-    public function update(Request $request, Inventory $inventory)
+    public function update(InventoryRequest $request, Inventory $inventory): JsonResource
     {
-        $inventory->update($request->all());
-        return response()->json($inventory);
+        return InventoryResource::make(
+            app(InventoryUpdateAction::class)(
+                InventoryData::from($request->validated()),
+                $inventory->id
+            )
+        );
     }
 
-    public function destroy(Inventory $inventory)
+    public function destroy(Inventory $inventory): JsonResponse
     {
         $inventory->delete();
+
         return response()->json(null, 204);
+    }
+
+    public function calculate(): JsonResponse
+    {
+        return response()->json([
+            'message' => 'Data retrieved successfully',
+            'data' => [
+                'total_cost' => Inventory::calculateTotalCost(),
+            ],
+        ]);
     }
 }
