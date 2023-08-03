@@ -2,10 +2,13 @@
 
 namespace App\Actions\Inventory;
 
+use App\Data\InventoryData;
+use App\Models\Inventory;
+
 class InventoryCreateAction
 {
-    public function __invoke()
+    public function __invoke(InventoryData $data): Inventory
     {
-        // TODO: Implement __invoke() method.
+        return Inventory::create($data->toArray());
     }
 }

@@ -14,7 +14,7 @@ class Purchase extends Model
     protected $fillable = [
         'inventory_id',
         'quantity',
-        'unit_cost'
+        'unit_cost',
     ];
 
     public static function newFactory(): Factory

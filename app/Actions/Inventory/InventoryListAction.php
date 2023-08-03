@@ -2,10 +2,13 @@
 
 namespace App\Actions\Inventory;
 
+use App\Models\Inventory;
+use Illuminate\Pagination\LengthAwarePaginator;
+
 class InventoryListAction
 {
-    public function __invoke()
+    public function __invoke(): LengthAwarePaginator
     {
-        // TODO: Implement __invoke() method.
+        return Inventory::paginate();
     }
 }

@@ -13,7 +13,7 @@ class Sale extends Model
 
     protected $fillable = [
         'inventory_id',
-        'quantity'
+        'quantity',
     ];
 
     public static function newFactory(): Factory

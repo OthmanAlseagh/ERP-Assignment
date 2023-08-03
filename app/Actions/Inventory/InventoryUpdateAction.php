@@ -2,10 +2,16 @@
 
 namespace App\Actions\Inventory;
 
+use App\Data\InventoryData;
+use App\Models\Inventory;
+
 class InventoryUpdateAction
 {
-    public function __invoke()
+    public function __invoke(InventoryData $data, int $inventoryId): Inventory
     {
-        // TODO: Implement __invoke() method.
+        $inventory = Inventory::findOrFail($inventoryId);
+        $inventory->update($data->toArray());
+
+        return $inventory->refresh();
     }
 }

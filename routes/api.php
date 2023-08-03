@@ -1,10 +1,10 @@
 <?php
 
+use App\Http\Controllers\InventoryController;
+use App\Http\Controllers\PurchaseController;
+use App\Http\Controllers\SalesController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\InventoryController;
-use App\Http\Controllers\SalesController;
-use App\Http\Controllers\PurchaseController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,15 +26,15 @@ Route::controller(InventoryController::class)
     ->prefix('inventories')
     ->whereNumber('inventory')
     ->group(function () {
-        Route::get('', 'index')->name('inventory_index');
-        Route::post('', 'store')->name('inventory_store');
-        Route::put('{inventory}', 'update')->name('inventory_update');
-        Route::delete('{inventory}', 'destroy')->name('inventory_destroy');
+        Route::get('', 'index')->name('inventory.index');
+        Route::post('', 'store')->name('inventory.store');
+        Route::put('{inventory}', 'update')->name('inventory.update');
+        Route::delete('{inventory}', 'destroy')->name('inventory.destroy');
+        Route::get('calculate', 'calculate')->name('inventory.calculate');
     });
 
 // Sales routes
-Route::post('/sales', [SalesController::class, 'store'])->name('sales_store');
+Route::post('/sales', [SalesController::class, 'store'])->name('sales.store');
 
 // Purchase routes
-Route::post('/purchases', [PurchaseController::class, 'store'])->name('purchase_store');
-
+Route::post('/purchases', [PurchaseController::class, 'store'])->name('purchase.store');
