@@ -50,6 +50,11 @@ class InventoryController extends Controller
 
     public function calculate(): JsonResponse
     {
-        return response()->json(['total_cost' => Inventory::calculateTotalCost()]);
+        return response()->json([
+            'message' => 'Data retrieved successfully',
+            'data' => [
+                'total_cost' => Inventory::calculateTotalCost(),
+            ],
+        ]);
     }
 }

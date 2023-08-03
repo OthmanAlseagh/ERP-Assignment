@@ -34,7 +34,7 @@ Route::controller(InventoryController::class)
     });
 
 // Sales routes
-Route::post('/sales', [SalesController::class, 'store'])->name('sales.store');
+Route::post('/sales', SalesController::class)->name('sales.store');
 
 // Purchase routes
-Route::post('/purchases', [PurchaseController::class, 'store'])->name('purchase.store');
+Route::post('/purchases', PurchaseController::class)->name('purchase.store');

@@ -11,13 +11,13 @@ class InventoryRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'unique:inventories,name'],
             'description' => ['required', 'string'],
-            'quantity' => ['required', 'integer'],
-            'unit_price' => ['required', 'numeric'],
+            'quantity' => ['required', 'integer', 'min:1'],
+            'unit_price' => ['required', 'numeric', 'min:0.1'],
         ];
     }
 
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 }

@@ -9,6 +9,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * @property string $name
+ * @property string $description
+ * @property int $quantity
+ * @property float $unit_price
+ */
 class Inventory extends Model
 {
     use HasFactory;
@@ -18,6 +24,10 @@ class Inventory extends Model
         'description',
         'quantity',
         'unit_price',
+    ];
+
+    protected $casts = [
+        'unit_price' => 'float',
     ];
 
     public static function newFactory(): Factory

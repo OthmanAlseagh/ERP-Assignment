@@ -2,15 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Sale;
-use Illuminate\Http\Request;
+use App\Actions\Sales\SalesCreateAction;
+use App\Data\SaleData;
+use App\Http\Requests\SaleRequest;
+use App\Http\Resources\SaleResource;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class SalesController extends Controller
 {
-    public function store(Request $request)
+    /**
+     * @throws \Throwable
+     */
+    public function __invoke(SaleRequest $request): JsonResource
     {
-        $sale = Sale::create($request->all());
-
-        return response()->json($sale, 201);
+        return SaleResource::make(
+            app(SalesCreateAction::class)(
+                SaleData::from($request->validated())
+            )
+        );
     }
 }

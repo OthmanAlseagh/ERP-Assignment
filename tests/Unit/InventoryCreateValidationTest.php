@@ -114,6 +114,21 @@ class InventoryCreateValidationTest extends TestCase
         $this->assertTrue($validator->fails());
     }
 
+    public function test_quantity_is_equal_zero(): void
+    {
+        $request = new InventoryRequest();
+
+        $validator = validator(
+            [
+                'name' => $this->faker->name,
+                'description' => $this->faker->sentence,
+                'quantity' => 0,
+                'unit_price' => $this->faker->randomFloat(),
+            ], $request->rules());
+
+        $this->assertTrue($validator->fails());
+    }
+
     public function test_unit_price_is_required(): void
     {
         $request = new InventoryRequest();
@@ -123,6 +138,21 @@ class InventoryCreateValidationTest extends TestCase
                 'name' => $this->faker->name,
                 'description' => $this->faker->sentence,
                 'quantity' => $this->faker->randomNumber(),
+            ], $request->rules());
+
+        $this->assertTrue($validator->fails());
+    }
+
+    public function test_unit_price_equal_zero(): void
+    {
+        $request = new InventoryRequest();
+
+        $validator = validator(
+            [
+                'name' => $this->faker->name,
+                'description' => $this->faker->sentence,
+                'quantity' => $this->faker->randomNumber(),
+                'unit_price' => 0,
             ], $request->rules());
 
         $this->assertTrue($validator->fails());
