@@ -36,6 +36,10 @@ class LocaleHelperTest extends TestCase
 
     public function test_accented_names_sort_near_base_letters(): void
     {
+        if (! class_exists(\Collator::class)) {
+            $this->markTestSkipped('ext-intl is required for locale-aware collation tests.');
+        }
+
         // Without locale-aware sorting, 'Ábaco' (0xC3…) would sort after 'Zorro'.
         // With a Collator for 'es' (Spanish), it sorts before 'banana'.
         app()->setLocale('es');
